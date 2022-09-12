@@ -51,6 +51,8 @@ body {
   line-height: 1.5;
   font-family: var(--ff-primary);
   background: linear-gradient(var(--bg-color));
+  width: 100vw;
+  height: 100vh;
 }
 
 /* A elements that don't have a class get default styles */
@@ -87,4 +89,9 @@ select {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+.hideGame {
+  visibility: hidden;
+  translate: 0.3s ease-out;
 }
