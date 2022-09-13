@@ -2,9 +2,11 @@ const main = document.querySelector("#main-section");
 const sectionTitle = document.querySelector("#section-title");
 const sectionButton = document.querySelector("#section-button");
 const containerButton = document.querySelector("#container-button");
+const containerChosen = document.querySelector("#container-chosen");
 const buttons = document.querySelectorAll("[data-selection]");
 const myButton = document.querySelector("#button-my");
 const pcButton = document.querySelector("#button-pc");
+const scoreCounter = document.querySelector("#scoreCounter");
 
 console.log(sectionTitle, main, sectionButton);
 const HANDS = [
@@ -39,6 +41,10 @@ const styleSectionTitle = () => {
 };
 
 const styleSectionButton = () => {
+  sectionButton.style.display = "flex";
+  sectionButton.style.justifyContent = "center";
+  sectionButton.style.alignItems = "center";
+
   sectionButton.style.width = "70%";
 };
 
@@ -58,18 +64,26 @@ buttons.forEach((button) => {
 
     //match the selection with the handsign
     const hand = HANDS.find((hand) => hand.sign === selection);
+
+    winnersHand(myDraw(hand), computersDraw());
+
     myDraw(hand);
 
+    hideGame(containerButton);
+
+    showHandSelection();
     showChosen(hand.sign);
 
     computersDraw();
-    setTimeout(() => {
-      showPC(computersDraw().sign);
-    }, [1500]);
 
     setTimeout(() => {
+      showPC(computersDraw().sign);
       winnersHand(myDraw(hand), computersDraw());
-    }, [2000]);
+    }, [500]);
+
+    setTimeout(() => {
+      showScore();
+    }, [1500]);
   });
 });
 
@@ -91,8 +105,7 @@ const computersDraw = () => {
 // check if my hand wins over computers hand and count the points
 const winnersHand = (myHand, computersHand) => {
   if (myHand === computersHand) {
-    myScore++;
-    pcScore++;
+    myScore++, pcScore++;
   } else if (
     (myHand.sign === "rock" && computersHand.beats === "scissors") ||
     (myHand.sign === "paper" && computersHand.beats === "rock") ||
@@ -101,13 +114,11 @@ const winnersHand = (myHand, computersHand) => {
     myScore++;
   } else pcScore++;
 
-  return pcScore, myScore;
+  return myScore;
 };
 
 //show my chosen turn
 const showChosen = (hand) => {
-  hideGame();
-
   let img = document.createElement("img");
   img.setAttribute("src", `/images/icon-${hand}.svg`);
 
@@ -121,6 +132,18 @@ const showPC = (hand) => {
   return pcButton.append(img);
 };
 
-const hideGame = () => {
-  return sectionButton.setAttribute("class", "hideGame");
+const showHandSelection = () => {
+  return containerChosen.setAttribute("class", "showBtnContainer");
 };
+
+const hideGame = (tag) => {
+  return tag.setAttribute("class", "hideGame");
+};
+
+//show the score in the page
+const showScore = () => {
+  return (scoreCounter.innerHTML = `<div>${myScore}</div> `);
+};
+
+//play again
+const reset = () => {};

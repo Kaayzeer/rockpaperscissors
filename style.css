@@ -92,6 +92,14 @@ select {
 }
 
 .hideGame {
-  visibility: hidden;
+  display: none;
   translate: 0.3s ease-out;
+}
+
+.container-chosen {
+  visibility: hidden;
+}
+
+.showBtnContainer {
+  visibility: visible;
 }
